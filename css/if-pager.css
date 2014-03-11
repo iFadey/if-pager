@@ -1,0 +1,103 @@
+/**
+ * Project Name : if-pager
+ * Description  : AngularJS Pager Directive
+ * Author       : Fawad Hassan
+ **/
+
+[if-pager] {
+  position: fixed;
+  height: 100%;
+  left: calc(50% - 160px);
+  overflow: hidden;
+  width: 320px;
+}
+[if-pager] > .breadcrumb {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+[if-pager] > [if-page] {
+  position: absolute;
+  width: 100%;
+}
+
+[if-page] .list-group {
+  margin-bottom: 0;
+}
+[if-page] .list-group-item {
+  border-radius: 0;
+}
+
+/*[if-page] {
+  border: 1px solid #f4f4f4;
+}
+[if-page] > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+[if-page] .if-page-item:nth-child(2n) {
+  background: #f8f8f8;
+}
+[if-page] .if-page-item > a {
+  color: #0F9FFF;
+  display: block;
+  padding: .9rem 1rem;
+  text-decoration: none;
+}
+[if-page] .if-page-item a:hover {
+  background: #0F9FFF;
+  color: #f8f8f8;
+}*/
+
+/*.breadcrumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.breadcrumbs:after {
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  height: 0;
+  visibility: hidden;
+}
+.breadcrumbs > li {
+  float: left;
+}
+.breadcrumbs > li > a {
+  background: #0F9FFF;
+  color: #f9f9f9;
+  display: inline-block;
+  padding: 6px 8px;
+  text-decoration: none;
+}
+.breadcrumbs > li > a:hover {
+  background: #f9f9f9;
+  color: #0F9FFF;
+}*/
+
+
+.slide-left-in {
+  animation-name: slide-left-in;
+  animation-duration: .5s;
+  transform: translateX(0%);
+}
+@keyframes slide-left-in {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0%); }
+}
+
+.slide-left-out {
+  animation-name: slide-left-out;
+  animation-duration: .5s;
+  transform: translateX(-100%);
+}
+@keyframes slide-left-out {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.hide {
+  display: none;
+}
