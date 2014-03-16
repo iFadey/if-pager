@@ -5,7 +5,7 @@ angular
   var pages = [];
 
   function appendPage($scope, $element, data) {
-    var page = angular.element('<section if-page="curPage"></section>');
+    var page = angular.element('<section if-page="curPage" if-click="ifClick(d)"></section>');
     $scope.curPage = data;
     $element.append(page);
     $compile(page)($scope);
@@ -14,7 +14,9 @@ angular
   return {
     restrict: 'A',
     scope: {
-      ifPager: '='
+      ifPager: '=',
+      //ifClick: '&',
+      ifHandlers: '='
     },
     template: '<ol class="breadcrumb">' +
                 '<li ng-repeat="b in breadcrumb" ng-class="{active: $last}">' +
@@ -27,6 +29,7 @@ angular
 
       // used to add a new page
       this.addPage = function (model) {
+        $scope.ifClick = $scope.ifHandlers[breadcrumb.length];
         appendPage($scope, $element, model);
       };
 
@@ -39,7 +42,7 @@ angular
     },
     link: function ($scope, $element) {
       var breadcrumb = $scope.breadcrumb;
-
+      $scope.ifHandlers[0]('test');
       $scope.openPage = function (i) {
         var j = breadcrumb.length - 1;
 
@@ -51,6 +54,7 @@ angular
         breadcrumb[i].open();
       };
 
+      $scope.ifClick = $scope.ifHandlers[0];
       appendPage($scope, $element, $scope.ifPager[0]);
     }
   };
@@ -61,7 +65,8 @@ angular
     require: '^ifPager',
     restrict: 'A',
     scope: {
-      ifPage: '='
+      ifPage: '=',
+      ifClick: '&'
     },
     template: '<div class="list-group">' +
                 '<a href class="list-group-item" ' +
@@ -72,6 +77,7 @@ angular
               '</div>',
     link: function ($scope, $elm, $attrs, pagerCtrl) {
       $scope.model = $scope.ifPage;
+      $scope.clickHdlr = $scope.ifClick
 
       console.log($scope.model.children);
 
@@ -84,6 +90,9 @@ angular
       };
 
       $scope.childPage = function (i) {
+        //console.log($scope.model.children[i]);
+        $scope.clickHdlr({ d: $scope.model.children[i] });
+
         if ($scope.model.children[i].children) {
           $scope.close();
           pagerCtrl.addPage($scope.model.children[i]);
@@ -98,6 +107,20 @@ angular
 
 .controller('TestCtrl', function ($scope) {
 
+  $scope.test = 'ifadey';
+
+  $scope.handlers = [
+    function (d) {
+      console.log('level 0 - ' + d.title);
+    },
+    function (d) {
+      console.log('level 1 - ' + d.title);
+    },
+    function (d) {
+      console.log('level 2 - ' + d.title);
+    }
+  ];
+
   $scope.data = [
     {
       title: 'Root',
@@ -105,13 +128,13 @@ angular
         {
           title: 'Item 1-1',
           children: [
-            {title: 'VND 1'},
+            {title: 'Item 2-1'},
             {
-              title: 'VND 2',
+              title: 'Item 2-2',
               children: [
-                {title: 'Topo 1'},
-                {title: 'Topo 2'},
-                {title: 'Topo 3'}
+                {title: 'Item 3-1'},
+                {title: 'Item 3-2'},
+                {title: 'Item 3-3'}
               ]
             }
           ]
