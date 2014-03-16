@@ -68,13 +68,12 @@ angular
       ifPage: '=',
       ifClick: '&'
     },
-    template: '<div class="list-group">' +
-                '<a href class="list-group-item" ' +
-                        'ng-repeat="item in model.children" ' +
-                        'ng-click="childPage($index)">' +
-                  '{{item.title}} ' +
-                '</a>' +
-              '</div>',
+    template: '<ul class="list-group">' +
+                '<li class="list-group-item" ng-repeat="item in model.children">' +
+                  '<a href="#" class="glyphicon glyphicon-chevron-right" ng-show="item.children" ng-click="childPage($index)"></a>' +
+                  '<a href class="txt" ng-click="clickHdlr({d: item})">{{item.title}}</a>' +
+                '</li>' +
+              '</ul>',
     link: function ($scope, $elm, $attrs, pagerCtrl) {
       $scope.model = $scope.ifPage;
       $scope.clickHdlr = $scope.ifClick
@@ -90,9 +89,6 @@ angular
       };
 
       $scope.childPage = function (i) {
-        //console.log($scope.model.children[i]);
-        $scope.clickHdlr({ d: $scope.model.children[i] });
-
         if ($scope.model.children[i].children) {
           $scope.close();
           pagerCtrl.addPage($scope.model.children[i]);

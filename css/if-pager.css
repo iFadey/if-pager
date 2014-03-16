@@ -27,6 +27,24 @@
 }
 [if-page] .list-group-item {
   border-radius: 0;
+  padding: 0;
+}
+[if-page] .list-group-item > a {
+  text-decoration: none;
+}
+[if-page] .list-group-item > a:hover {
+  background: #428BCA;
+  color: #fff;
+}
+[if-page] .list-group-item > .glyphicon {
+  display: inline-block;
+  float: right;
+  padding: 14px 15px;
+}
+[if-page] .list-group-item > .txt {
+  display: inline-block;
+  padding: 12px 15px;
+  width: calc(100% - 46px);
 }
 
 /*[if-page] {
