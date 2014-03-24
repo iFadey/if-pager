@@ -99,9 +99,14 @@
 
 
 .slide-left-in {
-  animation-name: slide-left-in;
-  animation-duration: .5s;
+  -webkit-animation: slide-left-in .5s;
+  animation: slide-left-in .5s;
+  -webkit-transform: translateX(0%);
   transform: translateX(0%);
+}
+@-webkit-keyframes slide-left-in {
+  0% { -webkit-transform: translateX(100%); }
+  100% { -webkit-transform: translateX(0%); }
 }
 @keyframes slide-left-in {
   0% { transform: translateX(100%); }
@@ -109,9 +114,14 @@
 }
 
 .slide-left-out {
-  animation-name: slide-left-out;
-  animation-duration: .5s;
+  -webkit-animation: slide-left-out .5s;
+  animation: slide-left-out .5s;
+  -webkit-transform: translateX(-100%);
   transform: translateX(-100%);
+}
+@-webkit-keyframes slide-left-out {
+  0% { -webkit-transform: translateX(0%); }
+  100% { -webkit-transform: translateX(-100%); }
 }
 @keyframes slide-left-out {
   0% { transform: translateX(0%); }

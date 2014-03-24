@@ -5,6 +5,12 @@ angular
   var pages = [];
 
   function appendPage($scope, $element, data) {
+    if (data.page) {
+      $scope.breadcrumb.push(data.page);
+      data.page.open();
+      return;
+    }
+
     var page = angular.element('<section if-page="curPage" if-click="ifClick(d)"></section>');
     $scope.curPage = data;
     $element.append(page);
@@ -46,9 +52,11 @@ angular
       $scope.openPage = function (i) {
         var j = breadcrumb.length - 1;
 
+        breadcrumb[j].close();
+
         while (j > i) {
-          breadcrumb[j--].close();
           breadcrumb.pop();
+          j--;
         }
 
         breadcrumb[i].open();
@@ -60,7 +68,7 @@ angular
   };
 })
 
-.directive('ifPage', function () {
+.directive('ifPage', function ($timeout) {
   return {
     require: '^ifPager',
     restrict: 'A',
@@ -76,25 +84,34 @@ angular
               '</ul>',
     link: function ($scope, $elm, $attrs, pagerCtrl) {
       $scope.model = $scope.ifPage;
-      $scope.clickHdlr = $scope.ifClick
+      $scope.clickHdlr = $scope.ifClick;
 
       console.log($scope.model.children);
 
       $scope.open = function () {
-        $elm.removeClass('slide-left-out').addClass('slide-left-in');
+        $elm.css('display', 'block');
+        $elm.addClass('slide-left-in');
       };
 
-      $scope.close = function () {
-        $elm.removeClass('slide-left-in').addClass('slide-left-out');
+      $scope.close = function (notAni) {
+        notAni ? $elm.css('display', 'none')
+               : $elm.addClass('slide-left-out');
       };
+
+      $elm.on('animationend webkitAnimationEnd', function (e) {
+        console.log('animationend', e.animationName);
+        if (e.animationName === 'slide-left-out') {
+          $elm.css('display', 'none');
+        }
+        $elm.removeClass('slide-left-out slide-left-in');
+      });
 
       $scope.childPage = function (i) {
-        if ($scope.model.children[i].children) {
-          $scope.close();
-          pagerCtrl.addPage($scope.model.children[i]);
-        }
+        $scope.close();
+        pagerCtrl.addPage($scope.model.children[i]);
       };
 
+      $scope.ifPage.page = $scope;
       $scope.open();
       pagerCtrl.pageAdded($scope);
     }
